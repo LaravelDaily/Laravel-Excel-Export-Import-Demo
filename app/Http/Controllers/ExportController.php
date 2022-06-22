@@ -12,7 +12,7 @@ class ExportController extends Controller
 {
     public function array()
     {
-        $handle = fopen('storage/export.csv', 'w');
+        $handle = fopen(public_path('storage/export.csv'), 'w');
 
         User::chunk(2000, function ($users) use ($handle) {
             foreach ($users->toArray() as $user) {
@@ -27,7 +27,7 @@ class ExportController extends Controller
 
     public function excel()
     {
-        return Excel::download(new UsersExport, 'users.xlsx');
+        return Excel::download(new UsersExport, 'users.csv');
     }
 
     public function spatie()
