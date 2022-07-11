@@ -23,11 +23,13 @@ Route::get('/', function () {
 Route::post('import/array', [ImportController::class, 'array'])->name('import.array');
 Route::post('import/excel', [ImportController::class, 'excel'])->name('import.excel');
 Route::post('import/spatie', [ImportController::class, 'spatie'])->name('import.spatie');
+Route::post('import/fast-excel', [ImportController::class, 'fastExcel'])->name('import.fast-excel');
 
 // Exports
 Route::get('export/array', [ExportController::class, 'array'])->name('export.array');
 Route::get('export/excel', [ExportController::class, 'excel'])->name('export.excel');
 Route::get('export/spatie', [ExportController::class, 'spatie'])->name('export.spatie');
+Route::get('export/fast-excel', [ExportController::class, 'fastExcel'])->name('export.fast-excel');
 
 Route::get('users', [\App\Http\Controllers\UserController::class, 'index'])->name('users.index');
 
@@ -36,4 +38,4 @@ Route::middleware('auth')->group(function () {
     Route::put('profile', [\App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
