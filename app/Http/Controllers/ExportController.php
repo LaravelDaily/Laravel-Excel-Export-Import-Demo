@@ -15,11 +15,16 @@ class ExportController extends Controller
     {
         $handle = fopen(public_path('storage/export.csv'), 'w');
 
-        User::chunk(2000, function ($users) use ($handle) {
-            foreach ($users->toArray() as $user) {
-                fputcsv($handle, $user);
-            }
-        });
+        // User::chunk(2000, function ($users) use ($handle) {
+        //     foreach ($users->toArray() as $user) {
+        //         fputcsv($handle, $user);
+        //     }
+        // });
+
+        User::query()->lazyById(2000, 'id')
+            ->each(function ($user) use ($handle) {
+                fputcsv($handle, $user->toArray());
+            });
 
         fclose($handle);
 
@@ -35,12 +40,16 @@ class ExportController extends Controller
     {
         $rows = [];
 
-        User::chunk(2000, function ($users) use (&$rows) {
-            foreach ($users->toArray() as $user) {
-                $rows[] = $user;
-            }
-        });
+        // User::chunk(2000, function ($users) use (&$rows) {
+        //     foreach ($users->toArray() as $user) {
+        //         $rows[] = $user;
+        //     }
+        // });
 
+        User::query()->lazyById(2000, 'id')
+            ->each(function ($user) use (&$rows) {
+                $rows[] = $user->toArray();
+            });
         SimpleExcelWriter::streamDownload('users.csv')
             ->noHeaderRow()
             ->addRows($rows);
